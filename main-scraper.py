@@ -7,6 +7,11 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.chrome.options import Options
 
+from throwdata import insert_data
+
+from datetime import datetime
+
+
 import json
 
 with open('NIFTY50.json', 'r') as openfile:
@@ -38,7 +43,10 @@ for company in NIFTY50:
     name = driver.find_element(By.XPATH, name_xpath).text
 
     company_obj = {
-        "name" : name
+
+        "index":i,
+        "name" : name,
+        "date" : datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
 
 
@@ -77,7 +85,7 @@ for company in NIFTY50:
     data.append(company_obj)
 
     json_data = json.dumps(data,indent=4)
-    print(i)
+    print(data)
     i+=1
 
 
@@ -85,3 +93,5 @@ driver.quit()
 
 with open('maindata.py','w') as outfile:
     outfile.write(json_data)
+
+# insert_data(json_data)
